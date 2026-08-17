@@ -1,0 +1,17 @@
+[
+  {
+    "testId": "TC_PRODUCT_MNG_001",
+    "description": "Thêm sản phẩm mới thành công",
+    "productName": "Laptop Gaming ASUS",
+    "price": "25000000",
+    "expectedStatus": "Thêm sản phẩm thành công"
+  },
+  {
+    "testId": "TC_PRODUCT_MNG_002",
+    "description": "Cập nhật giá sản phẩm",
+    "productName": "Laptop Gaming ASUS",
+    "price": "24000000",
+    "expectedStatus": "Cập nhật thành công"
+  }
+  // TODO: Add 10 more test cases here to meet the 12 test cases requirement
+]

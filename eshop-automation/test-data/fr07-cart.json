@@ -1,0 +1,17 @@
+[
+  {
+    "testId": "TC_CART_001",
+    "description": "Thêm sản phẩm vào giỏ hàng thành công",
+    "productId": "PROD_123",
+    "quantity": 1,
+    "expectedItemCount": 1
+  },
+  {
+    "testId": "TC_CART_002",
+    "description": "Cập nhật số lượng sản phẩm trong giỏ hàng",
+    "productId": "PROD_123",
+    "quantity": 5,
+    "expectedItemCount": 5
+  }
+  // TODO: Add 10 more test cases here to meet the 12 test cases requirement
+]

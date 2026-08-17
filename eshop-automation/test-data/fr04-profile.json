@@ -1,0 +1,17 @@
+[
+  {
+    "testId": "TC_PROFILE_001",
+    "description": "Cập nhật tên người dùng thành công",
+    "name": "Nguyen Van A",
+    "phone": "0123456789",
+    "expectedMessage": "Cập nhật thành công"
+  },
+  {
+    "testId": "TC_PROFILE_002",
+    "description": "Để trống số điện thoại",
+    "name": "Nguyen Van B",
+    "phone": "",
+    "expectedMessage": "Số điện thoại không được để trống"
+  }
+  // TODO: Add 10 more test cases here to meet the 12 test cases requirement
+]
