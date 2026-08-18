@@ -8,12 +8,15 @@ const testData = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
 
 test.describe('FR-15: Product management (CRUD)', () => {
   test.beforeEach(async ({ page }) => {
-    // Navigate to admin login page and authenticate
-    // await page.goto('http://localhost:3000/admin/login');
-    // await page.fill('input[name="username"]', 'admin');
-    // await page.fill('input[name="password"]', 'admin123');
-    // await page.click('button[type="submit"]');
-    // await page.goto('http://localhost:3000/admin/products');
+    await page.goto('http://localhost:5173/login');
+
+    await page.locator('input').nth(0).fill('test@eshop.com');
+    await page.locator('input').nth(1).fill('Test1234!');
+    await page.locator('button[type="submit"]').click();
+    
+    await page.waitForTimeout(1000);
+    
+    await page.goto('http://localhost:5173/profile');
   });
 
   // Data-Driven Testing

@@ -8,8 +8,15 @@ const testData = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
 
 test.describe('FR-07: Giỏ hàng (Shopping Cart)', () => {
   test.beforeEach(async ({ page }) => {
-    // Navigate to a product page or home page
-    // await page.goto('http://localhost:3000/products');
+    await page.goto('http://localhost:5173/login');
+
+    await page.locator('input').nth(0).fill('test@eshop.com');
+    await page.locator('input').nth(1).fill('Test1234!');
+    await page.locator('button[type="submit"]').click();
+    
+    await page.waitForTimeout(1000);
+    
+    await page.goto('http://localhost:5173/profile');
   });
 
   // Data-Driven Testing

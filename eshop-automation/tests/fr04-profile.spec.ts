@@ -9,15 +9,15 @@ const testData = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
 test.describe('FR-04: Quản lý hồ sơ cá nhân', () => {
 
   test.beforeEach(async ({ page }) => {
-    // Giả lập trạng thái đã đăng nhập vào Profile
-    // Trong thực tế, bạn có thể gọi API login hoặc điền form login trước
-    await page.goto('http://localhost:5173/profile');
+    await page.goto('http://localhost:5173/login');
+
+    await page.locator('input').nth(0).fill('test@eshop.com');
+    await page.locator('input').nth(1).fill('Test1234!');
+    await page.locator('button[type="submit"]').click();
     
-    // Nếu ứng dụng yêu cầu đăng nhập thực sự, hãy bỏ comment phần dưới và sửa locator:
-    // await page.getByPlaceholder('Email').fill('test@eshop.com');
-    // await page.getByPlaceholder('Password').fill('password123');
-    // await page.getByRole('button', { name: 'Đăng nhập' }).click();
-    // await page.waitForURL('**/profile');
+    await page.waitForTimeout(1000);
+    
+    await page.goto('http://localhost:5173/profile');
   });
 
   for (const data of testData) {
