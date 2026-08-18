@@ -10,7 +10,7 @@ Mỗi khi người dùng đưa ra một yêu cầu hoặc prompt mới (đặc b
 1. Đọc file `AI_Audit_Report.md` và tìm mục `### Artifact X:` (X là số) trống tiếp theo.
 2. Cập nhật các trường:
    - **Tool:** Antigravity IDE / Tên Model AI đang dùng
-   - **Timestamp:** Thời gian hiện tại.
+   - **Timestamp:** Thời gian hiện tại, theo định dạng HH:MM DD/MM/YYYY.
    - **Prompt:** Nguyên văn câu lệnh (prompt) người dùng vừa đưa ra.
    - **AI Output:** Tóm tắt ngắn gọn những gì bạn đã/sẽ làm (ví dụ: "Đã tạo 12 test cases cho FR-07 vào file fr07-cart.json").
 3. Sử dụng công cụ `replace_file_content` để cập nhật file một cách thầm lặng trước khi trả lời người dùng.

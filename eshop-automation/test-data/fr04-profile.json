@@ -1,17 +1,121 @@
 [
   {
-    "testId": "TC_PROFILE_001",
-    "description": "Cập nhật tên người dùng thành công",
-    "name": "Nguyen Van A",
-    "phone": "0123456789",
-    "expectedMessage": "Cập nhật thành công"
+    "testId": "TC_FR04_01",
+    "description": "Cập nhật thành công với số điện thoại 10 số (Biên Min)",
+    "inputData": {
+      "name": "ABC",
+      "phone": "0123456789",
+      "address": "Nguyen Van Cu 101"
+    },
+    "expectedResult": "Cập nhật hồ sơ thành công"
   },
   {
-    "testId": "TC_PROFILE_002",
-    "description": "Để trống số điện thoại",
-    "name": "Nguyen Van B",
-    "phone": "",
-    "expectedMessage": "Số điện thoại không được để trống"
+    "testId": "TC_FR04_02",
+    "description": "Cập nhật thành công với số điện thoại 11 số (Biên Max)",
+    "inputData": {
+      "name": "ABC",
+      "phone": "01234567890",
+      "address": "Nguyen Van Cu 101"
+    },
+    "expectedResult": "Cập nhật hồ sơ thành công"
+  },
+  {
+    "testId": "TC_FR04_03",
+    "description": "Báo lỗi khi số điện thoại có độ dài thấp hơn giới hạn (Biên Min-1)",
+    "inputData": {
+      "name": "ABC",
+      "phone": "012345678",
+      "address": "Nguyen Van Cu 101"
+    },
+    "expectedResult": "Số điện thoại không hợp lệ"
+  },
+  {
+    "testId": "TC_FR04_04",
+    "description": "Báo lỗi khi số điện thoại có độ dài vượt quá giới hạn (Biên Max+1)",
+    "inputData": {
+      "name": "ABC",
+      "phone": "012345678901",
+      "address": "Nguyen Van Cu 101"
+    },
+    "expectedResult": "Số điện thoại không hợp lệ"
+  },
+  {
+    "testId": "TC_FR04_05",
+    "description": "Báo lỗi khi số điện thoại không bắt đầu bằng số 0",
+    "inputData": {
+      "name": "ABC",
+      "phone": "8412345678",
+      "address": "Nguyen Van Cu 101"
+    },
+    "expectedResult": "bắt đầu bằng số 0"
+  },
+  {
+    "testId": "TC_FR04_06",
+    "description": "Kiểm tra lỗi SĐT chứa ký tự chữ cái hoặc ký tự đặc biệt",
+    "inputData": {
+      "name": "ABC",
+      "phone": "0123abc789",
+      "address": "Nguyen Van Cu 101"
+    },
+    "expectedResult": "chỉ được chứa các chữ số"
+  },
+  {
+    "testId": "TC_FR04_07",
+    "description": "Báo lỗi khi bỏ trống trường Số điện thoại",
+    "inputData": {
+      "name": "ABC",
+      "phone": "",
+      "address": "Nguyen Van Cu 101"
+    },
+    "expectedResult": "Số điện thoại không được để trống"
+  },
+  {
+    "testId": "TC_FR04_08",
+    "description": "Xác nhận trường Email ở trạng thái không thể chỉnh sửa",
+    "inputData": {
+      "checkReadonly": "email"
+    },
+    "expectedResult": "readonly"
+  },
+  {
+    "testId": "TC_FR04_09",
+    "description": "Không thể tự ý thay đổi thuộc tính Role",
+    "inputData": {
+      "apiPayload": {
+        "role": "admin"
+      }
+    },
+    "expectedResult": "role stays user"
+  },
+  {
+    "testId": "TC_FR04_10",
+    "description": "Không thể cập nhật hồ sơ của tài khoản khác",
+    "inputData": {
+      "apiPayload": {
+        "userId": "another_id"
+      }
+    },
+    "expectedResult": "403 Forbidden"
+  },
+  {
+    "testId": "TC_FR04_11",
+    "description": "Kiểm tra hiển thị khi nhập username cực kỳ dài",
+    "inputData": {
+      "name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "phone": "0123456789",
+      "address": "Nguyen Van Cu 101"
+    },
+    "expectedResult": "truncate"
+  },
+  {
+    "testId": "TC_FR04_12",
+    "description": "Kiểm tra hệ thống có thực sự lưu trường Địa chỉ",
+    "inputData": {
+      "name": "ABC",
+      "phone": "0123456789",
+      "address": "Nguyen Van Cu 101",
+      "checkState": true
+    },
+    "expectedResult": "Nguyen Van Cu 101"
   }
-  // TODO: Add 10 more test cases here to meet the 12 test cases requirement
 ]
