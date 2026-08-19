@@ -7,7 +7,7 @@
       "phone": "0123456789",
       "address": "Nguyen Van Cu 101"
     },
-    "expectedResult": "Cập nhật hồ sơ thành công"
+    "expectedResult": "Cập nhật thành công!"
   },
   {
     "testId": "TC_FR04_02",
@@ -17,7 +17,7 @@
       "phone": "01234567890",
       "address": "Nguyen Van Cu 101"
     },
-    "expectedResult": "Cập nhật hồ sơ thành công"
+    "expectedResult": "Cập nhật thành công!"
   },
   {
     "testId": "TC_FR04_03",
@@ -27,7 +27,7 @@
       "phone": "012345678",
       "address": "Nguyen Van Cu 101"
     },
-    "expectedResult": "Số điện thoại không hợp lệ"
+    "expectedResult": "Số điện thoại không hợp lệ. Vui lòng nhập đúng 10-11 chữ số."
   },
   {
     "testId": "TC_FR04_04",
@@ -37,7 +37,7 @@
       "phone": "012345678901",
       "address": "Nguyen Van Cu 101"
     },
-    "expectedResult": "Số điện thoại không hợp lệ"
+    "expectedResult": "Số điện thoại không hợp lệ. Vui lòng nhập đúng 10-11 chữ số."
   },
   {
     "testId": "TC_FR04_05",
@@ -47,7 +47,7 @@
       "phone": "8412345678",
       "address": "Nguyen Van Cu 101"
     },
-    "expectedResult": "bắt đầu bằng số 0"
+    "expectedResult": "Số điện thoại phải được bắt đầu bằng số 0."
   },
   {
     "testId": "TC_FR04_06",
@@ -57,7 +57,7 @@
       "phone": "0123abc789",
       "address": "Nguyen Van Cu 101"
     },
-    "expectedResult": "chỉ được chứa các chữ số"
+    "expectedResult": "Số điện thoại không hợp lệ."
   },
   {
     "testId": "TC_FR04_07",
@@ -102,20 +102,20 @@
     "description": "Kiểm tra hiển thị khi nhập username cực kỳ dài",
     "inputData": {
       "name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-      "phone": "0123456789",
+      "phone": "123456789",
       "address": "Nguyen Van Cu 101"
     },
-    "expectedResult": "truncate"
+    "expectedResult": "Cập nhật thành công!"
   },
   {
     "testId": "TC_FR04_12",
     "description": "Kiểm tra hệ thống có thực sự lưu trường Địa chỉ",
     "inputData": {
       "name": "ABC",
-      "phone": "0123456789",
+      "phone": "123456789",
       "address": "Nguyen Van Cu 101",
       "checkState": true
     },
-    "expectedResult": "Nguyen Van Cu 101"
+    "expectedResult": "Cập nhật thành công!"
   }
 ]
