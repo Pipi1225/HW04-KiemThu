@@ -20,13 +20,28 @@ test.describe('FR-04: Quản lý hồ sơ cá nhân', () => {
     await page.goto('http://localhost:5173/profile');
   });
 
+  // Reset lại dữ liệu chuẩn sau mỗi test case
+  // afterEach đảm bảo LUN LUÔN CHẠY dù bài test có Pass hay Fail
+  test.afterEach(async ({ page }) => {
+    try {
+      await page.goto('http://localhost:5173/profile');
+      await page.locator('input').nth(1).fill('Test User');
+      await page.locator('input').nth(2).fill('1234567890');
+      await page.locator('textarea').fill('JSON');
+      page.once('dialog', dialog => dialog.accept());
+      await page.locator('button[type="submit"]').click();
+      await page.waitForTimeout(500);
+    } catch (e) {
+      // Do nothing
+    }
+  });
+
   for (const data of testData) {
     test(`[${data.testId}] ${data.description}`, async ({ page }) => {
       console.log(`Running test: ${data.testId}`);
 
-      // Xử lý các case API/Edge case đặc biệt
       if (data.inputData.checkReadonly === 'email') {
-        const emailInput = page.getByLabel('Email (Không đổi)');
+        const emailInput = page.locator('input').nth(0);
         // Pattern Assertion 1: toBeDisabled() - Kiểm tra trạng thái UI element
         await expect(emailInput).toBeDisabled();
         return; 
@@ -39,42 +54,55 @@ test.describe('FR-04: Quản lý hồ sơ cá nhân', () => {
       // Xử lý các test case thông thường (UI Form)
       const { name, phone, address } = data.inputData;
       
-      // Sử dụng getByLabel là locator tối ưu nhất về mặt Accessibility (A11y)
+      const headerBoxBefore = await page.locator('header').boundingBox();
+
       if (name !== undefined) {
-        await page.getByLabel('Họ Tên').fill(name);
+        await page.locator('input').nth(1).fill(name);
       }
       if (phone !== undefined) {
-        await page.getByLabel('Số điện thoại').fill(phone);
+        await page.locator('input').nth(2).fill(phone);
       }
       if (address !== undefined) {
-        // Có thể dùng getByPlaceholder hoặc getByLabel
-        await page.getByPlaceholder('Nhập địa chỉ của bạn').fill(address);
+        await page.locator('textarea').fill(address);
       }
 
+      let dialogMessage = '';
+      page.once('dialog', async dialog => {
+        dialogMessage = dialog.message();
+        await dialog.accept();
+      });
+
       // Submit form
-      await page.getByRole('button', { name: 'Cập nhật' }).click();
+      await page.locator('button[type="submit"]').click();
+      
+      // Chờ JS kịp bắn ra alert
+      await page.waitForTimeout(500);
 
-      // Kiểm tra Expected Result
-      // Tùy theo SUT hiển thị Toast hay Error Message ngay dưới input, ta bắt text đó
-      // Pattern Assertion 2: toBeVisible() - Kiểm tra thông báo xuất hiện trên màn hình
-      const expectedMessage = page.getByText(data.expectedResult);
-      await expect(expectedMessage).toBeVisible();
+      await page.reload();
 
-      // Pattern Assertion 3: toHaveValue() - Kiểm tra lại giá trị đã điền có giữ đúng không (sau khi validation fail hoặc thành công)
+      // Pattern Assertion 2: Kiểm tra nội dung của native alert dialog
+      if (data.exactMatch) {
+          expect(dialogMessage, 'Lỗi SUT: Thông báo không khớp hoàn toàn với mong đợi!').toBe(data.expectedResult);
+      } else {
+          expect(dialogMessage).toContain(data.expectedResult);
+      }
+
+      // Pattern Assertion 3: toHaveValue() - Kiểm tra lại giá trị đã điền có giữ đúng không
       if (name !== undefined) {
-          await expect(page.getByLabel('Họ Tên')).toHaveValue(name);
+        await expect(page.locator('input').nth(1)).toHaveValue(name);
+      }
+
+      const headerBoxAfter = await page.locator('header').boundingBox();
+      if (headerBoxBefore && headerBoxAfter && data.inputData.checkUI) {
+        expect(headerBoxAfter.height, 'Lỗi UI: Header bị giãn chiều cao (vỡ layout)').toBeLessThanOrEqual(headerBoxBefore.height + 5);
       }
 
       // Case riêng để check luồng State Management (Bug TC_FR04_12)
       if (data.inputData.checkState) {
-          // Bấm về trang chủ
           await page.getByRole('link', { name: 'EShop' }).click();
-          // Bấm vô lại profile
           await page.getByRole('link', { name: /Chào,/ }).click();
           
-          // Kiểm tra xem dữ liệu có phải là address mới không
-          // (Với bug hiện tại, assertion này sẽ FAIL như kỳ vọng)
-          await expect(page.getByPlaceholder('Nhập địa chỉ của bạn')).toHaveValue(address);
+          await expect(page.locator('textarea')).toHaveValue(address);
       }
     });
   }

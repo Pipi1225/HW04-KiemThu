@@ -35,45 +35,128 @@ Em đã sử dụng AI cho những task sau đây:
 
 ### Artifact 4: 
 **1. Prompt + Tool**
-- **Tool:** 
-- **Timestamp:** 
-- **Prompt:**
+- **Tool:** Antigravity IDE / Gemini 3.1 Pro
+- **Timestamp:** 2026-08-19T14:19:49+07:00
+- **Prompt:** Tôi nghĩ là cần phải chỉnh lại các Locator trong phần sau ở fr04-profile.spec.ts. Các email, họ tên, số điện thoại không được bọc trong 1 label nên không thể dùng getByLabel được, thay vào đó bạn cũng hãy dùng n-th như <input> lúc trước, note là phần địa chỉ là <textarea> chứ không phải <input>
 
-
-**2. AI Output:**
+**2. AI Output:** Đã cập nhật file `fr04-profile.spec.ts`, thay đổi các locator sử dụng `getByLabel` và `getByPlaceholder` thành `page.locator('input').nth(i)` và `page.locator('textarea')` theo cấu trúc HTML thực tế.
 
 ### Artifact 5: 
 **1. Prompt + Tool**
-- **Tool:** 
-- **Timestamp:** 
-- **Prompt:**
+- **Tool:** Antigravity IDE / Gemini 3.1 Pro
+- **Timestamp:** 2026-08-19T14:29:20+07:00
+- **Prompt:** Tại sao quá trình tôi kiểm tra lại thử fr04 trong --ui, nó không xuất hiện dialog localhost:5173 says nhỉ?
 
-
-**2. AI Output:**
+**2. AI Output:** Đã giải thích cho người dùng về cơ chế tự động dismiss native dialog (alert/confirm) của Playwright. Đồng thời cập nhật lại code trong `fr04-profile.spec.ts` để sử dụng `page.once('dialog', ...)` nhằm bắt thông báo từ alert thay vì tìm trong DOM.
 
 ### Artifact 6: 
 **1. Prompt + Tool**
-- **Tool:** 
-- **Timestamp:** 
-- **Prompt:**
+- **Tool:** Antigravity IDE / Gemini 3.1 Pro
+- **Timestamp:** 2026-08-19T14:47:25+07:00
+- **Prompt:** Có cách nào kiểm tra lại việc UI bị "vỡ" không? Như là Layout thay đổi do tên User quá dài (do không có truncate)?
 
-
-**2. AI Output:**
+**2. AI Output:** Đã hướng dẫn người dùng 3 phương pháp kiểm tra giao diện (UI) bị vỡ bằng Playwright: Visual Regression Testing (chụp ảnh màn hình so sánh), Bounding Box (kiểm tra tọa độ/kích thước) và kiểm tra thuộc tính CSS/DOM (scrollWidth > clientWidth).
 
 ### Artifact 7: 
 **1. Prompt + Tool**
-- **Tool:** 
-- **Timestamp:** 
-- **Prompt:**
+- **Tool:** Antigravity IDE / Gemini 3.1 Pro
+- **Timestamp:** 2026-08-19T14:53:01+07:00
+- **Prompt:** Tôi nghĩ là chọn cách 1 để đơn giản nhất có thể, có thể thêm cả script để lấy layout header khi vừa bắt đầu test luôn không?
 
-
-**2. AI Output:**
+**2. AI Output:** Đã cập nhật file `fr04-profile.spec.ts` để thêm tính năng Visual Regression Testing (chụp và so sánh ảnh Screenshot của Header) theo Cách 1. Giải thích thêm cho người dùng về lệnh `--update-snapshots`.
 
 ### Artifact 8: 
+**1. Prompt + Tool**
+- **Tool:** Antigravity IDE / Gemini 3.1 Pro
+- **Timestamp:** 2026-08-19T15:08:42+07:00
+- **Prompt:** Tôi tự hỏi là việc --update-snapshots hoạt động kiểu gì? Tại bây giờ before/after snapshot đang bị lẫn lộn lên hết, tôi làm chụp màn hình manual luôn thì sao nhỉ?
+
+**2. AI Output:** Đã giải thích cho người dùng lý do snapshots bị lẫn lộn (do lưu trùng tên trong vòng lặp) và đồng tình với giải pháp chụp ảnh manual (`.screenshot()`). Đã sửa lại code `fr04-profile.spec.ts` để lưu ảnh thủ công theo mã `testId` kết hợp kiểm tra `boundingBox` để tự động báo Fail khi vỡ UI.
+
+### Artifact 10: 
+**1. Prompt + Tool**
+- **Tool:** Antigravity IDE / Gemini 3.1 Pro
+- **Timestamp:** 2026-08-19T16:20:31+07:00
+- **Prompt:** Ở test case FR-06, nếu như tôi muốn test nó phải bắt buộc CHỈ có message là: "Số điện thoại không hợp lệ." thì sao? Vì do hiện tại SUT EShop trả về chỉ là 1 câu, không phân biệt các context lỗi là: "Số điện thoại không hợp lệ. Vui lòng nhập đúng 9-10 chữ số."
+
+**2. AI Output:** Đã hướng dẫn người dùng sử dụng cờ `exactMatch` trong file JSON data-driven và cập nhật lại script `fr04-profile.spec.ts` dùng hàm `toBe()` thay vì `toContain()` để bắt buộc so sánh chính xác tuyệt đối (exact match) message trả về.
+
+### Artifact 11: 
+**1. Prompt + Tool**
+- **Tool:** Antigravity IDE / Gemini 3.1 Pro
+- **Timestamp:** 2026-08-19T16:38:54+07:00
+- **Prompt:** Tôi vừa mới điều chỉnh lại luồng thực thi script để test case FR-11 không ảnh hưởng test case ở sau nó... Nên bây giờ bạn hãy kiểm tra lại toàn bộ file fr04-profile.spec.ts
+
+**2. AI Output:** Đã review file `fr04-profile.spec.ts` của user. Chỉ ra lỗ hổng logic: các lệnh `expect` ở trên (như kiểm tra dialog) nếu fail vẫn sẽ chặn việc reset data. Đã giải thích cho user hiểu cơ chế "luôn luôn chạy" của `test.afterEach` (như khối `finally`) và khuyên user nên dùng lại `afterEach` để code clean và an toàn hơn.
+
+### Artifact 12: 
+**1. Prompt + Tool**
+- **Tool:** Antigravity IDE / Gemini 3.1 Pro
+- **Timestamp:** 2026-08-19T16:40:44+07:00
+- **Prompt:** Bạn hãy ghi đè đi
+
+**2. AI Output:** Đã ghi đè file `fr04-profile.spec.ts` để phục hồi lại block `test.afterEach` (đảm bảo reset data thành công trong mọi trường hợp) và chuẩn hóa logic kiểm tra vỡ UI bằng chiều cao của `header`.
+
+### Artifact 13: 
 **1. Prompt + Tool**
 - **Tool:** 
 - **Timestamp:** 
 - **Prompt:**
 
+**2. AI Output:**
+
+### Artifact 14: 
+**1. Prompt + Tool**
+- **Tool:** 
+- **Timestamp:** 
+- **Prompt:**
+
+**2. AI Output:**
+
+### Artifact 15: 
+**1. Prompt + Tool**
+- **Tool:** 
+- **Timestamp:** 
+- **Prompt:**
+
+**2. AI Output:**
+
+### Artifact 16: 
+**1. Prompt + Tool**
+- **Tool:** 
+- **Timestamp:** 
+- **Prompt:**
+
+**2. AI Output:**
+
+### Artifact 17: 
+**1. Prompt + Tool**
+- **Tool:** 
+- **Timestamp:** 
+- **Prompt:**
+
+**2. AI Output:**
+
+### Artifact 18: 
+**1. Prompt + Tool**
+- **Tool:** 
+- **Timestamp:** 
+- **Prompt:**
+
+**2. AI Output:**
+
+### Artifact 19: 
+**1. Prompt + Tool**
+- **Tool:** 
+- **Timestamp:** 
+- **Prompt:**
+
+**2. AI Output:**
+
+### Artifact 20: 
+**1. Prompt + Tool**
+- **Tool:** 
+- **Timestamp:** 
+- **Prompt:**
 
 **2. AI Output:**
