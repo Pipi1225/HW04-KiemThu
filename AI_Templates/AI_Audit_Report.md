@@ -99,11 +99,11 @@ Em đã sử dụng AI cho những task sau đây:
 
 ### Artifact 13: 
 **1. Prompt + Tool**
-- **Tool:** 
-- **Timestamp:** 
-- **Prompt:**
+- **Tool:** Antigravity IDE / Gemini 3.1 Pro
+- **Timestamp:** 2026-08-20T14:21:17+07:00
+- **Prompt:** Bạn hãy viết cho tôi test script cho phần FR-07: Giỏ hàng (Shopping Cart). Dựa vào 13 test case đã có sẵn trong file Test_Case_FR.md...
 
-**2. AI Output:**
+**2. AI Output:** Đã đọc 13 test cases cho FR-07, phân tích DOM từ 2 file HTML giao diện, sau đó tạo file data `fr07-cart.json` và mã kiểm thử `fr07-cart.spec.ts`.
 
 ### Artifact 14: 
 **1. Prompt + Tool**

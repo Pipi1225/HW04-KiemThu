@@ -23,5 +23,5 @@
 ### 2.1. Kịch bản & Màn hình kiểm thử (Scenario & Screens)
 
 ### 2.2 Demo Video Link
-- **Đường dẫn tới Video Demo Agent Skill:** [Link Youtube Agent Skill]()
+- **Đường dẫn tới Video Demo Agent Skill:** [Link Youtube Agent Skill](https://youtu.be/LKze6uRxwRo)
 - **Đường dẫn tới Video Demo Task 2:** [Link Youtube Demo Task 2]()

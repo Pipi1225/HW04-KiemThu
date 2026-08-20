@@ -1,17 +1,67 @@
 [
   {
-    "testId": "TC_CART_001",
-    "description": "Thêm sản phẩm vào giỏ hàng thành công",
-    "productId": "PROD_123",
-    "quantity": 1,
-    "expectedItemCount": 1
+    "testId": "TC_FR07_01",
+    "description": "Kiểm tra hiển thị khi giỏ hàng trống",
+    "type": "empty_cart"
   },
   {
-    "testId": "TC_CART_002",
-    "description": "Cập nhật số lượng sản phẩm trong giỏ hàng",
-    "productId": "PROD_123",
-    "quantity": 5,
-    "expectedItemCount": 5
+    "testId": "TC_FR07_02",
+    "description": "Kiểm tra hiển thị danh sách các cột khi có sản phẩm",
+    "type": "table_columns"
+  },
+  {
+    "testId": "TC_FR07_03",
+    "description": "Kiểm tra nhãn hiển thị của Tổng tiền",
+    "type": "total_label"
+  },
+  {
+    "testId": "TC_FR07_04",
+    "description": "Kiểm tra thêm cùng một sản phẩm đã có trong giỏ hàng",
+    "type": "add_same_product"
+  },
+  {
+    "testId": "TC_FR07_05",
+    "description": "Kiểm tra tăng số lượng sản phẩm bằng nút [+] (Skip do không có nút +)",
+    "type": "skip"
+  },
+  {
+    "testId": "TC_FR07_06",
+    "description": "Kiểm tra giảm số lượng sản phẩm bằng nút [-] (Giá trị Min) (Skip do không có nút -)",
+    "type": "skip"
+  },
+  {
+    "testId": "TC_FR07_07",
+    "description": "Kiểm tra nhấn nút [-] khi số lượng đang ở mức tối thiểu (Giá trị Biên Min - 1) (Skip)",
+    "type": "skip"
+  },
+  {
+    "testId": "TC_FR07_08",
+    "description": "Kiểm tra hủy thao tác xóa sản phẩm qua Dialog xác nhận",
+    "type": "delete_cancel"
+  },
+  {
+    "testId": "TC_FR07_09",
+    "description": "Kiểm tra đồng ý xóa sản phẩm qua Dialog xác nhận",
+    "type": "delete_confirm"
+  },
+  {
+    "testId": "TC_FR07_10",
+    "description": "Kiểm tra chức năng của nút Tiếp tục mua sắm khi giỏ hàng trống",
+    "type": "continue_shopping_empty"
+  },
+  {
+    "testId": "TC_FR07_11",
+    "description": "Kiểm tra chức năng của nút Mua tiếp khi có sản phẩm",
+    "type": "continue_shopping_full"
+  },
+  {
+    "testId": "TC_FR07_12",
+    "description": "Kiểm tra tính nhất quán trạng thái của giỏ hàng sau khi Refresh (F5)",
+    "type": "state_consistency"
+  },
+  {
+    "testId": "TC_FR07_13",
+    "description": "Kiểm tra hệ thống có cho phép số lượng sản phẩm là số âm",
+    "type": "negative_quantity"
   }
-  // TODO: Add 10 more test cases here to meet the 12 test cases requirement
 ]
