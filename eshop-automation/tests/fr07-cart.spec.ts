@@ -23,17 +23,19 @@ test.describe('FR-07: Giỏ hàng (Shopping Cart)', () => {
     const url = page.url();
     if (!url.endsWith('5173/')) {
       await page.getByRole('link', { name: 'EShop' }).click();
+      await page.waitForTimeout(500);
     }
     
     // Bấm nút "Thêm vào giỏ" của sản phẩm đầu tiên
     await page.locator('button:has-text("Thêm vào giỏ")').first().click();
 
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(700);
   };
 
   test.afterEach(async ({ page }) => {
     // Vì lỗi mất state mà em tìm thấy ở TC_FR07_12, thay vì xóa localStorage, ta chỉ cần F5 để dọn dẹp sạch sẽ giỏ hàng
     await page.reload();
+    await page.waitForTimeout(1000);
   });
 
   for (const data of testData) {
@@ -50,6 +52,7 @@ test.describe('FR-07: Giỏ hàng (Shopping Cart)', () => {
       switch (data.type) {
         case 'empty_cart': {
           await page.getByRole('link', { name: 'Giỏ hàng' }).click();
+          await page.waitForTimeout(500);
           
           // Phải hiển thị chữ "Giỏ hàng của bạn đang trống"
           await expect(page.getByText(data.expectedText)).toBeVisible();
@@ -63,6 +66,7 @@ test.describe('FR-07: Giỏ hàng (Shopping Cart)', () => {
         case 'table_columns': {
           await addProductToCart(page);
           await page.getByRole('link', { name: 'Giỏ hàng' }).click();
+          await page.waitForTimeout(500);
           
           // Kiểm tra các cột hiển thị
           for (const text of data.expectedVariable.expectedText) {
@@ -80,6 +84,7 @@ test.describe('FR-07: Giỏ hàng (Shopping Cart)', () => {
         case 'total_label': {
           await addProductToCart(page);
           await page.getByRole('link', { name: 'Giỏ hàng' }).click();
+          await page.waitForTimeout(500);
           
           // Fail: Giao diện hiện "Tổng tạm tính" thay vì "Tổng cộng"
           const totalLabel = page.getByText(data.expectedText);
@@ -91,6 +96,7 @@ test.describe('FR-07: Giỏ hàng (Shopping Cart)', () => {
           await addProductToCart(page);
           await addProductToCart(page);
           await page.getByRole('link', { name: 'Giỏ hàng' }).click();
+          await page.waitForTimeout(500);
           
           // Fail: Thay vì tăng số lượng, hệ thống tạo thêm dòng mới cho cùng 1 sản phẩm
           const rows = page.locator('table tbody tr');
@@ -101,6 +107,7 @@ test.describe('FR-07: Giỏ hàng (Shopping Cart)', () => {
         case 'delete_cancel': {
           await addProductToCart(page);
           await page.getByRole('link', { name: 'Giỏ hàng' }).click();
+          await page.waitForTimeout(500);
           
           let dialogAppeared = false;
           page.once('dialog', async dialog => {
@@ -119,6 +126,7 @@ test.describe('FR-07: Giỏ hàng (Shopping Cart)', () => {
         case 'delete_confirm': {
           await addProductToCart(page);
           await page.getByRole('link', { name: 'Giỏ hàng' }).click();
+          await page.waitForTimeout(500);
           
           let dialogAppeared = false;
           page.once('dialog', async dialog => {
@@ -136,6 +144,7 @@ test.describe('FR-07: Giỏ hàng (Shopping Cart)', () => {
 
         case 'continue_shopping_empty': {
           await page.getByRole('link', { name: 'Giỏ hàng' }).click();
+          await page.waitForTimeout(500);
           await page.getByRole('link', { name: 'Tiếp tục mua sắm' }).click();
           
           // Pass: Trở về trang chủ
@@ -146,6 +155,7 @@ test.describe('FR-07: Giỏ hàng (Shopping Cart)', () => {
         case 'continue_shopping_full': {
           await addProductToCart(page);
           await page.getByRole('link', { name: 'Giỏ hàng' }).click();
+          await page.waitForTimeout(500);
           
           // Nút có thể là "← Mua tiếp" hoặc "Tiếp tục mua sắm" tùy giao diện thực tế
           // Sử dụng Regex để bắt 1 trong 2
@@ -159,11 +169,11 @@ test.describe('FR-07: Giỏ hàng (Shopping Cart)', () => {
         case 'state_consistency': {
           await addProductToCart(page);
           await page.getByRole('link', { name: 'Giỏ hàng' }).click();
+          await page.waitForTimeout(500);
           
           const rowsBefore = await page.locator('table tbody tr').count();
-          
           await page.reload();
-          await page.waitForTimeout(500);
+          await page.waitForTimeout(1000);
 
           const rowsAfter = await page.locator('table tbody tr').count();
           

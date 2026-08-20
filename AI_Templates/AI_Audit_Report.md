@@ -115,19 +115,19 @@ Em đã sử dụng AI cho những task sau đây:
 
 ### Artifact 15: 
 **1. Prompt + Tool**
-- **Tool:** 
-- **Timestamp:** 
-- **Prompt:**
+- **Tool:** Antigravity IDE / Gemini 3.1 Pro
+- **Timestamp:** 17:16 20/08/2026
+- **Prompt:** Nó đang bị lỗi chưa kịp chuyển trang đã locator, hãy giúp tôi thêm timeout 1 tí để tôi xem sao
 
-**2. AI Output:**
+**2. AI Output:** Đã bổ sung thêm `await page.waitForTimeout(500);` vào sau các sự kiện click chuyển trang (như bấm vào nút Giỏ Hàng, EShop, Tiếp tục mua sắm) trong file `fr07-cart.spec.ts` để đảm bảo React kịp render giao diện mới trước khi Playwright thực hiện các lệnh locator.
 
 ### Artifact 16: 
 **1. Prompt + Tool**
-- **Tool:** 
-- **Timestamp:** 
-- **Prompt:**
+- **Tool:** Antigravity IDE / Gemini 3.1 Pro
+- **Timestamp:** 17:16 20/08/2026
+- **Prompt:** Tôi nghĩ sau khi reload trang cũng nên chờ thêm timeout 1 tí nữa, để có thể kịp nhìn thấy trang load xong
 
-**2. AI Output:**
+**2. AI Output:** Đã thêm `await page.waitForTimeout(1000);` vào ngay sau lệnh `page.reload()` trong hook `afterEach` và tăng thời gian đợi trong test case `state_consistency` của file `fr07-cart.spec.ts` để người dùng có thể dễ dàng quan sát (debug bằng mắt) giao diện sau khi refresh.
 
 ### Artifact 17: 
 **1. Prompt + Tool**
