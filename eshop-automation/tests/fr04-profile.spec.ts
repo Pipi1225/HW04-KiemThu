@@ -27,7 +27,7 @@ test.describe('FR-04: Quản lý hồ sơ cá nhân', () => {
       await page.goto('http://localhost:5173/profile');
       await page.locator('input').nth(1).fill('Test User');
       await page.locator('input').nth(2).fill('1234567890');
-      await page.locator('textarea').fill('JSON');
+      await page.locator('textarea').fill("");
       page.once('dialog', dialog => dialog.accept());
       await page.locator('button[type="submit"]').click();
       await page.waitForTimeout(500);
