@@ -101,7 +101,16 @@ Em đã sử dụng AI cho những task sau đây:
 **1. Prompt + Tool**
 - **Tool:** Antigravity IDE / Gemini 3.1 Pro
 - **Timestamp:** 14:21 20/08/2026
-- **Prompt:** Bạn hãy viết cho tôi test script cho phần FR-07: Giỏ hàng (Shopping Cart). Dựa vào 13 test case đã có sẵn trong file Test_Case_FR.md...
+- **Prompt:** 
+```text
+Bạn hãy viết cho tôi test script cho phần FR-07: Giỏ hàng (Shopping Cart).
+
+Dựa vào 13 test case đã có sẵn trong file [Test_Case_FR.md]
+
+Và các đường dẫn cần thiết cho FR-07: Giỏ hàng
+- http://localhost:5173/ - Trang chủ (Có nút "Thêm sản phẩm") - [frontend-web-fr07-add-items.html]
+- http://localhost:5173/cart - Giỏ hàng (Cart) - [frontend-web-fr07-cart.html]
+```
 
 **2. AI Output:** Đã đọc 13 test cases cho FR-07, phân tích DOM từ 2 file HTML giao diện, sau đó tạo file data `fr07-cart.json` và mã kiểm thử `fr07-cart.spec.ts`.
 
@@ -131,11 +140,17 @@ Em đã sử dụng AI cho những task sau đây:
 
 ### Artifact 17: 
 **1. Prompt + Tool**
-- **Tool:** 
-- **Timestamp:** 
-- **Prompt:**
+- **Tool:** Antigravity IDE / Gemini 3.1 Pro
+- **Timestamp:** 20:10 20/08/2026
+- **Prompt:** 
+```text
+Thật ra có cách để làm test case 13 cuối của FR-07, vì ở trang chủ localhost:1573 có nút "Xem chi tiết" một sản phẩm, khi mở ra là sẽ có chỗ input để nhập số lượng và có nút "Thêm vào giỏ hàng" để thêm sản phẩm. Bạn hãy chỉnh sửa lại phần `negative_quantity` trong [fr07-cart.spec.ts]
 
-**2. AI Output:**
+Bạn hãy xem chi tiết ở file html này:
+http://localhost:5173/product/1 (khi click vào nút "Xem chi tiết" đầu tiên) - Trang xem chi tiết của sản phẩm - [frontend-web-fr07-detail-product.html]
+```
+
+**2. AI Output:** Đã phân tích DOM của trang Chi tiết sản phẩm (`frontend-web-fr07-detail-product.html`) và gỡ bỏ lệnh Skip ở test case 13 (`negative_quantity`). Cập nhật script thực hiện flow: Click Xem chi tiết -> Điền số âm (-5) -> Thêm vào giỏ -> Sang giỏ hàng -> Kiểm tra bắt lỗi hiển thị số âm.
 
 ### Artifact 18: 
 **1. Prompt + Tool**

@@ -183,8 +183,39 @@ test.describe('FR-07: Giỏ hàng (Shopping Cart)', () => {
         }
 
         case 'negative_quantity': {
-          // Bỏ qua do test case này bắt buộc phải có màn hình Chi tiết sản phẩm với ô input để nhập
-          test.skip(true, "Bỏ qua do chưa có UI chi tiết sản phẩm để nhập tay");
+          const url = page.url();
+          if (!url.endsWith('5173/')) {
+            await page.getByRole('link', { name: 'EShop' }).click();
+            await page.waitForTimeout(500);
+          }
+
+          // Bấm "Xem chi tiết" của sản phẩm đầu tiên
+          await page.getByRole('link', { name: 'Xem chi tiết' }).first().click();
+          await page.waitForTimeout(500);
+
+          // Tìm ô input Số lượng và điền số âm
+          const qtyInput = page.locator('input[type="number"]');
+          await qtyInput.fill('-5');
+
+          // Bấm Thêm vào giỏ hàng
+          await page.getByRole('button', { name: 'Thêm vào giỏ hàng' }).click();
+          await page.waitForTimeout(100);
+          await page.getByRole('button', { name: 'Thêm vào giỏ hàng' }).click();
+          await page.waitForTimeout(500);
+
+          // Sang trang giỏ hàng để kiểm tra hậu quả
+          await page.getByRole('link', { name: 'Giỏ hàng' }).click();
+          await page.waitForTimeout(500);
+
+          const rowCount = await page.locator('table tbody tr').count();
+          if (rowCount > 0) {
+             const rowText = await page.locator('table tbody tr').first().innerText();
+             // Fail: Hệ thống không chặn số lượng âm, dẫn đến Cột số lượng/Thành tiền hiển thị số âm
+             expect(rowText, 'Lỗi Logic: Hệ thống chấp nhận đưa số lượng âm vào Giỏ hàng').not.toContain('-');
+          } else {
+             // Pass: Nếu không có dòng nào, nghĩa là hệ thống đã chặn thành công việc thêm số âm
+             expect(rowCount).toBe(0);
+          }
           break;
         }
       }
