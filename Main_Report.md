@@ -14,5 +14,6 @@
 ## FR-07: Giỏ hàng (Shopping Cart)
 - AI mặc dù generate test script khá hoàn thiện, nhưng đồng thời nó cũng overwrite luôn phần đăng nhập vào trang EShop mà em đã để sẵn ở đầu mỗi test script, khiến cho toàn bộ script không thể chạy được.
 - AI mặc dù có chỉ ra lỗi do test case `TC_FR07_12` nếu reload trang hay chuyển URL thì sẽ mất hết toàn bộ sản phẩm trong giỏ hàng. Nhưng trong một số test script `empty_cart` và `table_columns`... lại dùng goto, khiến cho việc các test script bị chạy sai, không dò ra lỗi đúng.
+- Do các test script sinh ra vẫn chưa hoàn toàn là data-driven mà chỉ dạng hybrid, nên em đã tự điều chỉnh JSON để có thể hoàn toàn biến test script thành data-driven.
 
 ## FR-15: Product management (CRUD)

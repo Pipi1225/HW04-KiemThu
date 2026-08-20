@@ -52,7 +52,8 @@ test.describe('FR-07: Giỏ hàng (Shopping Cart)', () => {
           await page.getByRole('link', { name: 'Giỏ hàng' }).click();
           
           // Phải hiển thị chữ "Giỏ hàng của bạn đang trống"
-          await expect(page.getByText('Giỏ hàng của bạn đang trống')).toBeVisible();
+          await expect(page.getByText(data.expectedText)).toBeVisible();
+          
           // Fail: Không có hình minh họa (img) nào thể hiện giỏ hàng trống trên màn hình
           const images = page.locator('main img');
           expect(await images.count(), 'Lỗi UI: Không có hình minh họa giỏ hàng trống').toBeGreaterThan(0);
@@ -64,15 +65,15 @@ test.describe('FR-07: Giỏ hàng (Shopping Cart)', () => {
           await page.getByRole('link', { name: 'Giỏ hàng' }).click();
           
           // Kiểm tra các cột hiển thị
-          await expect(page.getByText('Sản phẩm', { exact: true })).toBeVisible();
-          await expect(page.getByText('Thành tiền')).toBeVisible();
-          await expect(page.getByText('Thao tác')).toBeVisible();
+          for (const text of data.expectedVariable.expectedText) {
+            await expect(page.getByText(text, { exact: true })).toBeVisible();
+          }
           
           // Fail: Giao diện không có nút + và - để chỉnh sửa số lượng
-          const plusBtn = page.getByRole('button', { name: '+' });
-          const minusBtn = page.getByRole('button', { name: '-' });
-          await expect(plusBtn, 'Lỗi UI: Thiếu nút + tăng số lượng').toBeVisible();
-          await expect(minusBtn, 'Lỗi UI: Thiếu nút - giảm số lượng').toBeVisible();
+          for (const btnText of data.expectedVariable.expectedButton) {
+            await expect(page.getByRole('button', { name: btnText })).toBeVisible();
+          }
+
           break;
         }
 
@@ -81,15 +82,15 @@ test.describe('FR-07: Giỏ hàng (Shopping Cart)', () => {
           await page.getByRole('link', { name: 'Giỏ hàng' }).click();
           
           // Fail: Giao diện hiện "Tổng tạm tính" thay vì "Tổng cộng"
-          const totalLabel = page.getByText('Tổng cộng');
+          const totalLabel = page.getByText(data.expectedText);
           await expect(totalLabel, 'Lỗi UI: Sai nhãn Tổng cộng').toBeVisible();
           break;
         }
 
         case 'add_same_product': {
-          await addProductToCart(page); // Thêm lần 1
-          await addProductToCart(page); // Thêm lần 2 cùng sản phẩm
-          await page.goto('http://localhost:5173/cart');
+          await addProductToCart(page);
+          await addProductToCart(page);
+          await page.getByRole('link', { name: 'Giỏ hàng' }).click();
           
           // Fail: Thay vì tăng số lượng, hệ thống tạo thêm dòng mới cho cùng 1 sản phẩm
           const rows = page.locator('table tbody tr');
@@ -104,7 +105,7 @@ test.describe('FR-07: Giỏ hàng (Shopping Cart)', () => {
           let dialogAppeared = false;
           page.once('dialog', async dialog => {
             dialogAppeared = true;
-            await dialog.dismiss(); // Hủy xóa
+            await dialog.dismiss();
           });
 
           await page.getByRole('button', { name: 'Xóa' }).first().click();
@@ -122,7 +123,7 @@ test.describe('FR-07: Giỏ hàng (Shopping Cart)', () => {
           let dialogAppeared = false;
           page.once('dialog', async dialog => {
             dialogAppeared = true;
-            await dialog.accept(); // Đồng ý xóa
+            await dialog.accept();
           });
 
           await page.getByRole('button', { name: 'Xóa' }).first().click();
@@ -161,7 +162,6 @@ test.describe('FR-07: Giỏ hàng (Shopping Cart)', () => {
           
           const rowsBefore = await page.locator('table tbody tr').count();
           
-          // Giả lập hành vi Reload trang bằng F5
           await page.reload();
           await page.waitForTimeout(500);
 

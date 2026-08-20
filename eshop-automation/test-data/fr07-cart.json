@@ -2,16 +2,23 @@
   {
     "testId": "TC_FR07_01",
     "description": "Kiểm tra hiển thị khi giỏ hàng trống",
+    "expectedText": "Giỏ hàng của bạn đang trống",
     "type": "empty_cart"
   },
   {
     "testId": "TC_FR07_02",
     "description": "Kiểm tra hiển thị danh sách các cột khi có sản phẩm",
+    "expectedVariable":
+    {
+      "expectedText": ["Sản phẩm", "Thành tiền", "Thao tác"],
+      "expectedButton": ["+", "-"]
+    },
     "type": "table_columns"
   },
   {
     "testId": "TC_FR07_03",
     "description": "Kiểm tra nhãn hiển thị của Tổng tiền",
+    "expectedText": "Tổng cộng",
     "type": "total_label"
   },
   {
