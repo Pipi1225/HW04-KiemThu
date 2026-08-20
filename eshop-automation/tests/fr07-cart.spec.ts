@@ -8,21 +8,32 @@ const testData = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
 
 test.describe('FR-07: Giỏ hàng (Shopping Cart)', () => {
 
-  // Hàm tiện ích: Thêm sản phẩm vào giỏ
+  test.beforeEach(async ({ page }) => {
+    await page.goto('http://localhost:5173/login');
+
+    await page.locator('input').nth(0).fill('test@eshop.com');
+    await page.locator('input').nth(1).fill('Test1234!');
+    await page.locator('button[type="submit"]').click();
+    
+    await page.waitForTimeout(1000);    
+  });
+
+  // Thêm sản phẩm vào giỏ
   const addProductToCart = async (page) => {
-    await page.goto('http://localhost:5173/');
+    const url = page.url();
+    if (!url.endsWith('5173/')) {
+      await page.getByRole('link', { name: 'EShop' }).click();
+    }
+    
     // Bấm nút "Thêm vào giỏ" của sản phẩm đầu tiên
     await page.locator('button:has-text("Thêm vào giỏ")').first().click();
-    // Đợi 1 chút để xử lý
+
     await page.waitForTimeout(500);
   };
 
   test.afterEach(async ({ page }) => {
-    // Reset data: Clear localStorage or cookies if cart is stored there
-    // Actually, because of bug TC_FR07_12, doing page.reload() clears the cart!
-    // So we can just use reload to clean the cart state for the next test.
-    await page.goto('http://localhost:5173/');
-    await page.evaluate(() => localStorage.clear());
+    // Vì lỗi mất state mà em tìm thấy ở TC_FR07_12, thay vì xóa localStorage, ta chỉ cần F5 để dọn dẹp sạch sẽ giỏ hàng
+    await page.reload();
   });
 
   for (const data of testData) {
@@ -38,7 +49,8 @@ test.describe('FR-07: Giỏ hàng (Shopping Cart)', () => {
 
       switch (data.type) {
         case 'empty_cart': {
-          await page.goto('http://localhost:5173/cart');
+          await page.getByRole('link', { name: 'Giỏ hàng' }).click();
+          
           // Phải hiển thị chữ "Giỏ hàng của bạn đang trống"
           await expect(page.getByText('Giỏ hàng của bạn đang trống')).toBeVisible();
           // Fail: Không có hình minh họa (img) nào thể hiện giỏ hàng trống trên màn hình
@@ -49,7 +61,7 @@ test.describe('FR-07: Giỏ hàng (Shopping Cart)', () => {
 
         case 'table_columns': {
           await addProductToCart(page);
-          await page.goto('http://localhost:5173/cart');
+          await page.getByRole('link', { name: 'Giỏ hàng' }).click();
           
           // Kiểm tra các cột hiển thị
           await expect(page.getByText('Sản phẩm', { exact: true })).toBeVisible();
@@ -66,7 +78,7 @@ test.describe('FR-07: Giỏ hàng (Shopping Cart)', () => {
 
         case 'total_label': {
           await addProductToCart(page);
-          await page.goto('http://localhost:5173/cart');
+          await page.getByRole('link', { name: 'Giỏ hàng' }).click();
           
           // Fail: Giao diện hiện "Tổng tạm tính" thay vì "Tổng cộng"
           const totalLabel = page.getByText('Tổng cộng');
@@ -87,7 +99,7 @@ test.describe('FR-07: Giỏ hàng (Shopping Cart)', () => {
 
         case 'delete_cancel': {
           await addProductToCart(page);
-          await page.goto('http://localhost:5173/cart');
+          await page.getByRole('link', { name: 'Giỏ hàng' }).click();
           
           let dialogAppeared = false;
           page.once('dialog', async dialog => {
@@ -105,7 +117,7 @@ test.describe('FR-07: Giỏ hàng (Shopping Cart)', () => {
 
         case 'delete_confirm': {
           await addProductToCart(page);
-          await page.goto('http://localhost:5173/cart');
+          await page.getByRole('link', { name: 'Giỏ hàng' }).click();
           
           let dialogAppeared = false;
           page.once('dialog', async dialog => {
@@ -122,7 +134,7 @@ test.describe('FR-07: Giỏ hàng (Shopping Cart)', () => {
         }
 
         case 'continue_shopping_empty': {
-          await page.goto('http://localhost:5173/cart');
+          await page.getByRole('link', { name: 'Giỏ hàng' }).click();
           await page.getByRole('link', { name: 'Tiếp tục mua sắm' }).click();
           
           // Pass: Trở về trang chủ
@@ -132,7 +144,7 @@ test.describe('FR-07: Giỏ hàng (Shopping Cart)', () => {
 
         case 'continue_shopping_full': {
           await addProductToCart(page);
-          await page.goto('http://localhost:5173/cart');
+          await page.getByRole('link', { name: 'Giỏ hàng' }).click();
           
           // Nút có thể là "← Mua tiếp" hoặc "Tiếp tục mua sắm" tùy giao diện thực tế
           // Sử dụng Regex để bắt 1 trong 2
@@ -145,7 +157,7 @@ test.describe('FR-07: Giỏ hàng (Shopping Cart)', () => {
 
         case 'state_consistency': {
           await addProductToCart(page);
-          await page.goto('http://localhost:5173/cart');
+          await page.getByRole('link', { name: 'Giỏ hàng' }).click();
           
           const rowsBefore = await page.locator('table tbody tr').count();
           
@@ -162,7 +174,6 @@ test.describe('FR-07: Giỏ hàng (Shopping Cart)', () => {
 
         case 'negative_quantity': {
           // Bỏ qua do test case này bắt buộc phải có màn hình Chi tiết sản phẩm với ô input để nhập
-          // Tuy nhiên SUT hiện tại chưa code xong trang product
           test.skip(true, "Bỏ qua do chưa có UI chi tiết sản phẩm để nhập tay");
           break;
         }
